@@ -1,0 +1,80 @@
+//2016年05月05日22:03:45
+#include <gtk/gtk.h>
+#define WIN_LEN 150		//窗口单位长
+#define WIN_BORDER_WID 10 	//宽口边沿厚度
+void on_ok_clicked(GtkButton* button, gpointer data)
+{
+
+}
+
+void on_cancel_clicked(GtkButton* button, gpointer data)
+{
+
+}
+
+int main(int argc, char* argv[])
+{
+	GtkWidget* window;
+	GtkWidget* vbox;
+	GtkWidget* hbox;
+	GtkWidget* bbox;
+	GtkWidget* label;
+	GtkWidget* image;
+	GtkWidget* sep;
+	GtkWidget* button;
+
+	gtk_init(&argc, &argv);
+
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+	gtk_window_set_title(GTK_WINDOW(window), "Snake Game");
+	gtk_widget_set_usize(GTK_WIDGET(window), 5*WIN_LEN, 3*WIN_LEN);
+	
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);			//禁止调整窗口大小
+
+	gtk_window_set_position(GTK_WINDOW(window),  GTK_WIN_POS_CENTER);
+	gtk_container_set_border_width(GTK_CONTAINER(window), WIN_BORDER_WID);	//设置窗口边框厚度
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(window), vbox);
+	
+	GtkWidget* table;	
+	table = gtk_table_new(40, 40, FALSE);
+	
+	GdkPixbuf *pix = NULL;
+	GtkWidget *pixbuf;
+	pix = gdk_pixbuf_new_from_file("1.png", NULL);
+	
+
+	for (int i = 0; i < 40; i++)
+	{
+		for (int j = 0; j < 40; j++)
+		{
+			pixbuf = gtk_image_new_from_pixbuf(pix);
+			gtk_table_attach(GTK_TABLE(table), pixbuf,
+				i, j,
+				i, j, 
+				GTK_FILL,
+				GTK_FILL,
+				0, 0);
+				
+		}
+	}
+	
+/*
+			image[i][j] = gtk_image_new_from_pixbuf(pixbuf);
+			gtk_table_attach(GTK_TABLE(table), image[i][j],
+				i, i+1, 
+				j, j+1,
+				GTK_FILL | GTK_EXPAND, 
+				GTK_FILL | GTK_EXPAND,
+				0, 0);	
+*/
+
+	
+	gtk_widget_show_all(window);
+	gtk_main();
+
+	return FALSE;
+}
